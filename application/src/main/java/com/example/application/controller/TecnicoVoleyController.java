@@ -19,7 +19,7 @@ public class TecnicoVoleyController {
      * @param tecnicoLocal a implementação específica de Tecnico a ser injetada
      */
     @Autowired
-    public TecnicoVoleyController(@Qualifier("tecnicoVoley") Tecnico tecnicoLocal) {
+    public TecnicoVoleyController(@Qualifier("tecnicoVoley") Tecnico tecnicoLocal) {  // Ao invés de @Qualifier podemos utilizar @Primary na classe que implementa a interface. Mas @Qualifier tem a prioridade maior
         this.tecnico = tecnicoLocal;
     }
 
