@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Lazy
 public class TecnicoBoliche implements Tecnico {
+
     @Override
     public String getTreino() {
         return "Jogar 10 bolas";
@@ -20,3 +21,4 @@ public class TecnicoBoliche implements Tecnico {
         return "Defender 10 pinos";
     }
 }
+

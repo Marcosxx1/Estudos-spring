@@ -118,3 +118,118 @@ public class TecnicoService {
 }
 
 ```
+
+# Prototyte Scope
+No Spring Framework, o escopo protótipo (@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)) cria uma nova instância de um bean toda vez que ele é solicitado pelo container do Spring. Isso contrasta com o escopo singleton padrão do Spring, onde uma única instância de um bean é criada e compartilhada por toda a aplicação.
+Exemplo
+```java```
+
+```java 
+import com.example.application.service.Tecnico;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RestController;
+
+@Component
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+public class TecnicoFutebol implements Tecnico {
+    // Implementação do Tecnico
+}
+
+// E no controller
+
+@RestController
+public class DemoController {
+    private final Tecnico tecnico;
+    private final Tecnico outroTecnico;
+
+    @Autowired
+    public DemoController(
+            @Qualifier("tecnicoFutebol") Tecnico umTecnico,
+            @Qualifier("tecnicoFutebol") Tecnico oOutroTecnico) {
+        this.tecnico = umTecnico;
+        this.outroTecnico = oOutroTecnico;
+    }
+}
+
+```
+
+# Bean LifeCycle
+- O container do spring é iniciado
+  - O Spring Container é inicializado, geralmente através da cração de um _ApplicationContext_
+- Bean é instanciado
+  - O Spring Container cria uma instância do bean
+- Dependencias são injetadas
+  - Após a criação do bean, o Spring resolver e injeta quaisquer dependências declaradas
+- Processamento interno do Spring
+  - O Spring executa qualquer processamento adicional necessário, como chamar métodos de callback de _BeanPostProcessor_
+- Nosso _init_ customizado é iniciado nessa etapa
+  - Se houver métodos de inicialização personalizados definidos pelo usuário, eles são chamados nesta etapa
+- Bean está pronto para uso
+  - O bean está completamente configurado e pronto para ser usado pela aplicação
+- Container é desligado
+  - Quando a aplicação é encerrada, o Spring Container começa o processo de desligamento
+- Nosso _destroy_ customizado
+  - Se houver métodos de destruição personalizados definidos pelo usuário, serão chamado aqui
+- Para
+  - O Container do Spring é completamente encerado
+
+```java
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+
+@Configuration
+public class AppConfig {
+
+    @Bean(initMethod = "customInit", destroyMethod = "customDestroy")
+    @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
+    public ExampleBean exampleBean() {
+        return new ExampleBean();
+    }
+
+    public static void main(String[] args) {
+        // O container do Spring é iniciado
+        ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+
+        // Bean está pronto para uso
+        ExampleBean bean = context.getBean(ExampleBean.class);
+
+        // Container é desligado
+        ((AnnotationConfigApplicationContext) context).close();
+    }
+}
+
+class ExampleBean implements InitializingBean, DisposableBean {
+
+    public ExampleBean() {
+        System.out.println("1. Bean é instanciado");
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        System.out.println("4. Processamento interno do Spring");
+    }
+
+    public void customInit() {
+        System.out.println("5. Nosso _init_ customizado é iniciado nessa etapa");
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        System.out.println("8. Nosso _destroy_ customizado");
+    }
+
+    public void customDestroy() {
+        System.out.println("9. Para");
+    }
+}
+```
