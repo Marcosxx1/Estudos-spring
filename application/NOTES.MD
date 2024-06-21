@@ -276,3 +276,23 @@ Neste caso, o método destroy() será chamado pelo container antes de remover o 
 ### De forma batante simplista:
 @PostConstruct: Pode ser usado para inicializar recursos. <br>
 @PreDestroy: Pode ser usado para liberar recursos.
+
+# @Bean
+A anotação @Bean é utilizada para configurar beans gerenciados pelo container spring. <br>
+**um bean é simplesmente um objeto que é instanciado, montado e gerenciado pelo próprio Spring**
+
+No exemplo abaixo, @Configuration indica que a classe 'AppConfig' serve como uma fonte de definições de beans para o conteiner Spring<br>
+@Bean que é utilizada no método exemploBean(), define um método _fabrica_ para criar e configurar um bean. **O retorno deste método <br> _exemploBean_ será gerenciado pelo container do Spring**
+```java
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class AppConfig {
+
+  @Bean
+  public ExemploBean exemploBean() {
+    return new ExemploBean();
+  }
+}
+```
