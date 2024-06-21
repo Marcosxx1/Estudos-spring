@@ -233,3 +233,46 @@ class ExampleBean implements InitializingBean, DisposableBean {
     }
 }
 ```
+
+# @PostConstruct
+As anotações @PostConstruct e @PreDestroy são utilizadas em aplicações Java (especialmente em frameworks como Spring) para indicar métodos que devem ser executados em momentos específicos do ciclo de vida de um bean gerenciado pelo container.
+
+A anotação @PostConstruct marca um método que deve ser executado logo após a inicialização do bean. Isso é útil quando precisamos realizar inicializações específicas que dependem do estado do bean após sua criação. Por exemplo:
+
+```java
+
+import jakarta.annotation.PostConstruct;
+
+public class ExemploBean {
+
+  @PostConstruct
+  public void init() {
+    // Inicialização de recursos, conexões, configurações, etc.
+    System.out.println("Inicializando ExemploBean...");
+  }
+}
+```
+Podemos  usar esse método para configurar variáveis de instância, estabelecer conexões com bancos de dados, ler configurações do ambiente, entre outras tarefas que devem ser feitas logo após a criação do objeto.
+
+# @PreDestroy
+A anotação @PreDestroy, por outro lado, marca um método que deve ser executado imediatamente antes do bean ser destruído pelo container. Isso é útil para liberar recursos ou fazer limpezas finais antes que o objeto seja removido da memória. Por exemplo:
+
+```java
+
+import jakarta.annotation.PreDestroy;
+
+public class ExemploBean {
+
+  @PreDestroy
+  public void destroy() {
+    // Liberação de recursos, fechamento de conexões, etc.
+    System.out.println("Destruindo ExemploBean...");
+  }
+}
+
+```
+Neste caso, o método destroy() será chamado pelo container antes de remover o ExemploBean da memória.Podemos usar esse método para fechar conexões com bancos de dados, liberar recursos abertos, ou qualquer outra operação que precise ser feita antes da destruição do objeto.
+
+### De forma batante simplista:
+@PostConstruct: Pode ser usado para inicializar recursos. <br>
+@PreDestroy: Pode ser usado para liberar recursos.
