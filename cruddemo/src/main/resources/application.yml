@@ -3,3 +3,9 @@ spring:
         url: jdbc:mysql://localhost:3306/student_tracker
         username: root
         password: root
+    main:
+        banner-mode: off # tira o banner do spring quando rodamos
+
+loggin:
+    leve:
+        root: warn
