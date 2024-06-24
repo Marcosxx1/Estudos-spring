@@ -14,3 +14,20 @@ Deve ter no mínimo
   - Se refatorarmos o código Java, os campos não serão iguais aos da base de dados
   - É uma mudança que vai quebrar o código pois precisaremos atualizar a coluna da base de dados
 O mesmo se aplica a @Table, o nome da tabela é o mesmo da classe
+
+# EntityManager ou JpaRepository
+## EntityManager
+- Se precisamos de flexibilidade e controle de baixo nível, usamos EntityManager 
+  - Quando precisamos de um controle baixo nível das operações da base de dados e queremos utilizar consultas customizadas
+  - Disponibiliza acesso de baixo nível ao JPA e trabalha diretamente com entidades JPA
+  - Consultas mais complexas que requerem recursos mais avançados como consultas nativas SQL ou chamadas de stored procedures
+  - Quando temos requisitos customisados que não são facilmente manipulados em um alto nível
+
+## JpaRepository
+- Disponibiliza operações comunmente utilizadas em CRUD, tudo já pronto para a gente, reduzindo a quantidade de código que precisamos escrever
+- Recursos adicionais como paginação e organização
+- Gera as consultas com base em nomes de métodos
+- Se queremos um alto nível de abstração, usamos o JPA
+
+### Podemos utilizar ambos em um projeto, mas é sempre bom sabermos ambas as tecnologias
+- A escolha depende dos requisitos da aplicação e da preferencia do desenvolvedor/projeto
