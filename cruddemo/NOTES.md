@@ -31,3 +31,16 @@ O mesmo se aplica a @Table, o nome da tabela é o mesmo da classe
 
 ### Podemos utilizar ambos em um projeto, mas é sempre bom sabermos ambas as tecnologias
 - A escolha depende dos requisitos da aplicação e da preferencia do desenvolvedor/projeto
+
+# @Transactional
+- Começa e termina uma transação em nosso código JPA
+  Não é Sempre Necessário: Embora a anotação @Transactional facilite muito o gerenciamento de transações, em certas situações, nós podemos precisar de um controle mais fino sobre transações. Por exemplo, se precisar de múltiplas operações atômicas ou se estiver lidando com transações distribuídas, pode ser necessário ajustar o escopo ou os parâmetros da anotação @Transactional.
+
+# Anotações especializadas para DAOs
+- @Component
+- @RestController
+- @Repository
+São aplicadas em implementações DAO
+- Spring irá registrar automaticamente a implementação DAO graças ao component-scaning
+- Spring também disponibiliza a tradução de qualquer exception relacionada a JDBCs 
+
