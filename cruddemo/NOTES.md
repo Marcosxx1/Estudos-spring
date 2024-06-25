@@ -43,4 +43,3 @@ O mesmo se aplica a @Table, o nome da tabela é o mesmo da classe
 São aplicadas em implementações DAO
 - Spring irá registrar automaticamente a implementação DAO graças ao component-scaning
 - Spring também disponibiliza a tradução de qualquer exception relacionada a JDBCs 
-

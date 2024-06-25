@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 public class EstudanteDAOImpl implements EstudanteDAO{
 
     // Definimos o campo para EntityManager
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     // Injetamos EntityManager usando injeção por construtor
     @Autowired
@@ -18,10 +18,16 @@ public class EstudanteDAOImpl implements EstudanteDAO{
         this.entityManager = entityManager;
     }
 
-    //Implementar o método save
+    //Implementa o método save
     @Override
     @Transactional
     public void save(Estudante estudante) {
         entityManager.persist(estudante);
+    }
+
+    // Implementa o método encontrar por ID
+    @Override
+    public Estudante findById(Integer id) {
+        return entityManager.find(Estudante.class, id);
     }
 }
