@@ -7,6 +7,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.List;
+
 @SpringBootApplication
 public class CruddemoApplication {
 
@@ -21,6 +23,9 @@ public class CruddemoApplication {
             criaEstudante(estudanteDao);
             criaVariosEstudantes(estudanteDao);
             encontrarEstudantePorId(estudanteDao);
+            encontraTodosEstudantes(estudanteDao);
+            encontraPorNome(estudanteDao, "João");
+
         };
     }
 
@@ -32,13 +37,13 @@ public class CruddemoApplication {
     private void criaVariosEstudantes(EstudanteDAO estudanteDao) {
         // Criando três estudantes:
 
-        Estudante tempEstudante1 = new Estudante("João", "Silva", "XXXXXXXXXXXXXXXXXXXX");
+/*        Estudante tempEstudante1 = new Estudante("João", "Silva", "XXXXXXXXXXXXXXXXXXXX");
         Estudante tempEstudante2 = new Estudante("Maria", "Silva", "XXXXXXXXXXXXXXXXXXXX");
         Estudante tempEstudante3 = new Estudante("Jose", "Silva", "XXXXXXXXXXXXXXXXXXXX");
         System.out.println("Salvando estudantes...");
         estudanteDao.save(tempEstudante1);
         estudanteDao.save(tempEstudante2);
-        estudanteDao.save(tempEstudante3);
+        estudanteDao.save(tempEstudante3);*/
     }
 
     private void criaEstudante(EstudanteDAO estudanteDao) {
@@ -51,5 +56,22 @@ public class CruddemoApplication {
 
         System.out.println("Estudante salvo. Estudante id: " + tempEstudante.getId());
     }
+
+    private void encontraTodosEstudantes(EstudanteDAO estudanteDao){
+        System.out.println("Todos estudantes: ");
+        List<Estudante> estudantes = estudanteDao.findAllEstudantes();
+        for(Estudante estudante: estudantes){
+            System.out.println(estudante.getFirstName());
+        }
+    }
+
+    private void encontraPorNome(EstudanteDAO estudanteDAO, String nome) {
+        System.out.println("Nomes parecidos: ");
+        List<Estudante> estudantesComNomesParecidos = estudanteDAO.findByFirstName(nome);
+        for (Estudante estudante : estudantesComNomesParecidos) {
+            System.out.println(estudante.getFirstName());
+        }
+    }
+
 
 }
