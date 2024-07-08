@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "student")
-public class Estudante {
+public class Student {
 
     /*Podemos também criar um identificador de ID diferente de todos os disponíveis do JPA*/
     @Id
@@ -21,10 +21,10 @@ public class Estudante {
     @Column(name = "email", length = 45)
     private String email;
 
-    public Estudante() {
+    public Student() {
     }
 
-    public Estudante(String firstName, String lastName, String email) {
+    public Student(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

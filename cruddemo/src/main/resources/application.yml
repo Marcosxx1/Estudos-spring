@@ -5,6 +5,13 @@ spring:
         password: root
     main:
         banner-mode: off # tira o banner do spring quando rodamos
+    jpa:
+        hibernate:
+            ddl-auto: update #APENAS EM PROJETOS SIMPLES!!
+            sql: debug
+            orm:
+                jdbc:
+                    bind: trace
 
 loggin:
     leve:

@@ -1,7 +1,8 @@
 package com.jpa.cruddemo;
 
-import com.jpa.cruddemo.dao.EstudanteDAO;
-import com.jpa.cruddemo.entity.Estudante;
+import com.jpa.cruddemo.dao.StudentDAO;
+import com.jpa.cruddemo.entity.Student;
+import jakarta.transaction.Transactional;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,58 +19,80 @@ public class CruddemoApplication {
 
 
     @Bean
-    public CommandLineRunner commandLineRunner(EstudanteDAO estudanteDao) {
+    public CommandLineRunner commandLineRunner(StudentDAO studentDao) {
         return runner -> {
-            criaEstudante(estudanteDao);
-            criaVariosEstudantes(estudanteDao);
-            encontrarEstudantePorId(estudanteDao);
-            encontraTodosEstudantes(estudanteDao);
-            encontraPorNome(estudanteDao, "João");
+           //criaEstudante(studentDao);
+           //criaVariosEstudantes(studentDao);
+           //encontrarEstudantePorId(studentDao);
+           //encontraTodosEstudantes(studentDao);
+           //encontraPorNome(studentDao, "João");
 
+            // updateStudent(studentDao);
+            //deleteStudent(studentDao);
         };
     }
 
-    private void encontrarEstudantePorId(EstudanteDAO estudanteDao) {
-        Estudante tempEstudante = estudanteDao.findById(1);
-        System.out.println("Estudante encontrado: " +tempEstudante.getFirstName());
+    private void deleteStudent(StudentDAO studentDao) {
+        int studentId = 1;
+        System.out.println("Deleting student id: " + studentId);
+        studentDao.delete(studentId);
+        System.out.println("Done!");
     }
 
-    private void criaVariosEstudantes(EstudanteDAO estudanteDao) {
+    private void updateStudent(StudentDAO studentDao) {
+
+        System.out.println("Updating student...");
+        Student myStudent = studentDao.findById(1);
+        System.out.println("Student antes da atualização: " + myStudent);
+        myStudent.setFirstName("João 2"); // trocar
+        studentDao.update(myStudent);
+        var myUpdatedStudent = studentDao.findById(1);
+        System.out.println("Student atualizado: " + myUpdatedStudent);
+        System.out.println("Done!");
+
+    }
+
+    private void encontrarEstudantePorId(StudentDAO studentDao) {
+        Student tempStudent = studentDao.findById(1);
+        System.out.println("Estudante encontrado: " + tempStudent.getFirstName());
+    }
+
+    private void criaVariosEstudantes(StudentDAO studentDao) {
         // Criando três estudantes:
 
-/*        Estudante tempEstudante1 = new Estudante("João", "Silva", "XXXXXXXXXXXXXXXXXXXX");
-        Estudante tempEstudante2 = new Estudante("Maria", "Silva", "XXXXXXXXXXXXXXXXXXXX");
-        Estudante tempEstudante3 = new Estudante("Jose", "Silva", "XXXXXXXXXXXXXXXXXXXX");
+        Student tempEstudante1 = new Student("João", "Silva", "XXXXXXXXXXXXXXXXXXXX");
+        Student tempEstudante2 = new Student("Maria", "Silva", "XXXXXXXXXXXXXXXXXXXX");
+        Student tempEstudante3 = new Student("Jose", "Silva", "XXXXXXXXXXXXXXXXXXXX");
         System.out.println("Salvando estudantes...");
-        estudanteDao.save(tempEstudante1);
-        estudanteDao.save(tempEstudante2);
-        estudanteDao.save(tempEstudante3);*/
+        studentDao.save(tempEstudante1);
+        studentDao.save(tempEstudante2);
+        studentDao.save(tempEstudante3);
     }
 
-    private void criaEstudante(EstudanteDAO estudanteDao) {
+    private void criaEstudante(StudentDAO studentDao) {
         System.out.println("Criando um novo objeto estudante");
-        Estudante tempEstudante = new Estudante("João", "Silva", "XXXXXXXXXXXXXXXXXXXX");
+        Student tempStudent = new Student("João", "Silva", "XXXXXXXXXXXXXXXXXXXX");
 
         System.out.println("Salvando o estudante...");
-        estudanteDao.save(tempEstudante);
+        studentDao.save(tempStudent);
 
 
-        System.out.println("Estudante salvo. Estudante id: " + tempEstudante.getId());
+        System.out.println("Estudante salvo. Estudante id: " + tempStudent.getId());
     }
 
-    private void encontraTodosEstudantes(EstudanteDAO estudanteDao){
+    private void encontraTodosEstudantes(StudentDAO studentDao){
         System.out.println("Todos estudantes: ");
-        List<Estudante> estudantes = estudanteDao.findAllEstudantes();
-        for(Estudante estudante: estudantes){
-            System.out.println(estudante.getFirstName());
+        List<Student> students = studentDao.findAllStudents();
+        for(Student student : students){
+            System.out.println(student.getFirstName());
         }
     }
 
-    private void encontraPorNome(EstudanteDAO estudanteDAO, String nome) {
+    private void encontraPorNome(StudentDAO studentDAO, String nome) {
         System.out.println("Nomes parecidos: ");
-        List<Estudante> estudantesComNomesParecidos = estudanteDAO.findByFirstName(nome);
-        for (Estudante estudante : estudantesComNomesParecidos) {
-            System.out.println(estudante.getFirstName());
+        List<Student> estudantesComNomesParecidos = studentDAO.findByFirstName(nome);
+        for (Student student : estudantesComNomesParecidos) {
+            System.out.println(student.getFirstName());
         }
     }
 

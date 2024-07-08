@@ -90,14 +90,31 @@ public List<Estudante> findByFirstName(String theFirstName) {
 Exemplo:
 
 ```java
-import com.jpa.cruddemo.entity.Estudante;
+import com.jpa.cruddemo.entity.Student;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 
 EntityManager entityManager;
 
-TypedQuery<Estudante> selecionaEstudante = entityManager.createQuery(
+TypedQuery<Student> selecionaEstudante = entityManager.createQuery(
         "select s from Estudante s");
 ```
 - No exemplo acima, **s** é uma _"Variável de identificação / alias"_ que disponibiliza uma referencia para o objeto da entidade Estudante
 - **s** pode ser qualquer nome, e é útil quando temos consultas complexas
+
+
+## Hibernate configurações
+* none
+  * Sem configurações
+* create-only
+  * Tabelas da base de dados são apenas criadas
+* drop
+  * Tiramos todos os dados das tabelas
+* create
+  * Tabelas são **dropadas** seguido da criação
+* create-drop
+  * Tabelas são **dropadas** seguido da criação. Quando a aplicação desliga, dropa as tabelas
+* validate
+  * Valida o esquema das tabelas
+* update
+  * Atualiza o esquema das tabelas
