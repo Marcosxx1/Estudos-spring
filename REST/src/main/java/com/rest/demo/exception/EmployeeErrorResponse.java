@@ -1,4 +1,4 @@
-package com.rest.demo;
+package com.rest.demo.exception;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class StudentErrorResponse {
+public class EmployeeErrorResponse {
     private int status;
     private String message;
     private long timeStamp;

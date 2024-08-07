@@ -1,7 +1,7 @@
 package com.rest.demo.controller;
 
-import com.rest.demo.StudentErrorResponse;
-import com.rest.demo.StudentNotFoundException;
+import com.rest.demo.exception.StudentErrorResponse;
+import com.rest.demo.exception.StudentNotFoundException;
 import com.rest.demo.entity.Student;
 import jakarta.annotation.PostConstruct;
 import org.springframework.http.HttpStatus;
@@ -16,9 +16,10 @@ public class StudentController {
 
     private List<Student> students;
 
-    @ExceptionHandler() // TODO- Ver diferença     @ExceptionHandler(StudentNotFoundException.class)
-
-    public ResponseEntity<StudentErrorResponse> handleException(StudentNotFoundException ex){
+    @ExceptionHandler(StudentNotFoundException.class)
+    // Com a StudentNotFoundException.class na anotação, especifica que o método lida apenas com exceções do tipo StudentNotFoundException.
+    //@ExceptionHandler // define um método que lida com todas as exceções gerenciadas pelo controlador, desde que o tipo de exceção seja compatível com o tipo de parâmetro do método.
+    public ResponseEntity<StudentErrorResponse> handleException(StudentNotFoundException ex) {
 
         StudentErrorResponse error = StudentErrorResponse.builder()
                 .status(HttpStatus.NOT_FOUND.value())
