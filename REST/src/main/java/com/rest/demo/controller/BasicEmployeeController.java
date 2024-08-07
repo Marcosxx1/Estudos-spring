@@ -1,6 +1,6 @@
 package com.rest.demo.controller;
 
-import com.rest.demo.entity.Employee;
+import com.rest.demo.domain.entity.Employee;
 import com.rest.demo.exception.EmployeeNotFoundException;
 import jakarta.annotation.PostConstruct;
 import org.springframework.http.ResponseEntity;
@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/employees")
-public class EmployeeController {
+//@RequestMapping("/employees")
+public class BasicEmployeeController {
 
     private List<Employee> employees;
 
@@ -24,7 +24,7 @@ public class EmployeeController {
         employees.add(new Employee(3, "Michael", "Johnson", "michael.johnson@example.com"));
     }
 
-    @PostMapping
+//    @PostMapping
     public Employee addEmployee(@RequestBody Employee employee) {
         var nextIndex = employees.size() + 1;
         employee.setId(nextIndex);
@@ -37,7 +37,7 @@ public class EmployeeController {
         return employees;
     }
 
-    @PutMapping("/{id}")
+   // @PutMapping("/{id}")
     public Employee updateEmployee(@PathVariable("id") int id, @RequestBody Employee employee) {
         if (id <= 0 || id > employees.size()) {
             throw new EmployeeNotFoundException("Employee not found with id: " + id);
@@ -50,7 +50,7 @@ public class EmployeeController {
         return employee;
     }
 
-    @GetMapping("/{id}")
+  //  @GetMapping("/{id}")
     public Employee getEmployee(@PathVariable("id") int id) {
         if (id <= 0 || id > employees.size()) {
             throw new EmployeeNotFoundException("Employee not found with id: " + id);
@@ -59,7 +59,7 @@ public class EmployeeController {
         return employees.get(id - 1);
     }
 
-    @DeleteMapping("/{id}")
+ //   @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEmployee(@PathVariable("id") int id) {
         if (id <= 0 || id > employees.size()) {
             throw new EmployeeNotFoundException("Employee not found with id: " + id);

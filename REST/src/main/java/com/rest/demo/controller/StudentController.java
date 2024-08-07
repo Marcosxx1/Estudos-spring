@@ -2,7 +2,7 @@ package com.rest.demo.controller;
 
 import com.rest.demo.exception.StudentErrorResponse;
 import com.rest.demo.exception.StudentNotFoundException;
-import com.rest.demo.entity.Student;
+import com.rest.demo.domain.entity.Student;
 import jakarta.annotation.PostConstruct;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/api")
+//@RequestMapping("/api")
 @RestController
 public class StudentController {
 
@@ -38,12 +38,12 @@ public class StudentController {
         );
     }
 
-    @GetMapping("/students")
+   // @GetMapping("/students")
     public List<Student> getStudents() {
         return students;
     }
 
-    @GetMapping("/students/{studentId}")
+  //  @GetMapping("/students/{studentId}")
     public Student getStudent(@PathVariable("studentId") int studentId) {
         if (studentId < 1 || studentId > students.size()) {
             throw new StudentNotFoundException("Student id not found - " + studentId);
