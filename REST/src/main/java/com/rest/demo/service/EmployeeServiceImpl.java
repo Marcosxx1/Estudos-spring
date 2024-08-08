@@ -1,8 +1,8 @@
 package com.rest.demo.service;
 
-import com.rest.demo.dao.EmployeeDAO;
 import com.rest.demo.domain.entity.Employee;
 import com.rest.demo.exception.EmployeeNotFoundException;
+import com.rest.demo.repository.EmployeeRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,11 +13,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private final EmployeeDAO employeeDAO;
+    private final EmployeeRepository employeeRepository;
 
     @Override
     public List<Employee> findAll() {
-        List<Employee> employees = employeeDAO.getAllEmployees();
+        List<Employee> employees = employeeRepository.findAll();
         if (employees.isEmpty()) {
             throw new EmployeeNotFoundException("No employees found");
         }
@@ -26,27 +26,23 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee findById(int id) {
-        Employee employee = employeeDAO.findById(id);
-
-        if (employee == null) {
-            throw new EmployeeNotFoundException("Employee with id " + id + " not found");
-        }
-        return employee;
+        return employeeRepository.findById(id).orElseThrow(
+                () -> new EmployeeNotFoundException("Employee with id " + id + " not found"));
     }
 
     @Transactional
     @Override
     public Employee save(Employee employee) {
-        Employee existEmployee = employeeDAO.findByEmail(employee.getEmail());
+        Employee existEmployee = employeeRepository.findByEmail(employee.getEmail());
         if (existEmployee != null) {
             throw new EmployeeNotFoundException("Employee with email " + employee.getEmail() + " already exist");
         }
-        return employeeDAO.save(employee);
+        return employeeRepository.save(employee);
     }
 
     @Override
     public Employee findByEmail(String email) {
-        Employee employee = employeeDAO.findByEmail(email);
+        Employee employee = employeeRepository.findByEmail(email);
         if (employee == null) {
             throw new EmployeeNotFoundException("Employee with email " + email + " not found");
         }
@@ -56,23 +52,19 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional
     @Override
     public void detele(int id) {
-        Employee employee = employeeDAO.findById(id);
-        if (employee == null) {
-            throw new EmployeeNotFoundException("Employee with id " + id + " not found");
-        }
-        employeeDAO.detele(id);
+        Employee employee = findById(id);
+
+        employeeRepository.delete(employee);
     }
 
     @Transactional
     @Override
-    public Employee update( Employee employee) {
-        Employee existEmployee = employeeDAO.findById(employee.getId());
-        if (existEmployee == null) {
-            throw new EmployeeNotFoundException("Employee with id " + employee.getId() + " not found");
-        }
+    public Employee update(Employee employee) {
+        Employee existEmployee = findById(employee.getId());
+
         existEmployee.setFirstName(employee.getFirstName());
         existEmployee.setLastName(employee.getLastName());
-       return employeeDAO.save(employee);
+        return employeeRepository.save(employee);
     }
 
 

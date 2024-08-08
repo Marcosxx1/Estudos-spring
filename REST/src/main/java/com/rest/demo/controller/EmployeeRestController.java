@@ -10,7 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/using-dao")
 @RequiredArgsConstructor
-public class DAOEmployeeRestController {
+public class EmployeeRestController {
 
     private final EmployeeService employeeService;
 
