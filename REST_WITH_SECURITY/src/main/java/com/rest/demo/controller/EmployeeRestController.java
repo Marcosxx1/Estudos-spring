@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/using-dao")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class EmployeeRestController {
 
